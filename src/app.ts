@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import compression from 'compression'
@@ -21,5 +21,19 @@ instanceMongodb
 // Init routes
 app.use('/', router)
 // Handle error
+app.use((req, res, next) => {
+  const error: any = new Error('Not Found');
+  error.status = 404;
+  next(error);
+})
+
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  const statusCode = error.status || 500;
+  return res.status(statusCode).json({
+    status: 'error',
+    code: statusCode,
+    message: error.message || 'Internal Server Error'
+  })
+})
 
 export default app
