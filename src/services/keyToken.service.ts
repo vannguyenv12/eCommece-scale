@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import keyTokenModel from "~/models/keytoken.model";
 
 interface IKeyToken {
@@ -27,11 +27,19 @@ class KeyTokenService {
 
       const tokens = await keyTokenModel.findOneAndUpdate(filter, update, options);
 
-      return tokens;
+      return tokens ? tokens.publicKey : null;
 
     } catch (error) {
-
+      return error;
     }
+  }
+
+  static findByUserId = async (userId: string) => {
+    return await keyTokenModel.findOne({ user: new Types.ObjectId(userId) }).lean();
+  }
+
+  static removeKeyById = async (id: Types.ObjectId) => {
+    return await keyTokenModel.deleteOne({ _id: id });
   }
 }
 

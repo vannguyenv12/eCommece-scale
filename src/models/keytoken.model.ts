@@ -1,9 +1,10 @@
 
 import mongoose, { Schema } from "mongoose";
+import { IKeyToken } from "./interfaces/keytoken.interface";
 const DOCUMENT_NAME = 'Key';
 const COLLECTION_NAME = 'Keys';
 // Declare the Schema of the Mongo model
-var keyTokenSchema = new mongoose.Schema({
+var keyTokenSchema = new mongoose.Schema<IKeyToken>({
   user: {
     type: Schema.Types.ObjectId,
     required: true,

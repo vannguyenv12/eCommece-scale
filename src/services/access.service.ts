@@ -6,6 +6,7 @@ import { createTokenPair } from "~/auth/authUtils";
 import { getInfoData } from "~/utils";
 import { AuthFailureError, BadRequestError } from "~/core/error.response";
 import { findByEmail } from "./shop.service";
+import { IKeyToken, IKeyTokenDocument } from "~/models/interfaces/keytoken.interface";
 
 interface ISignUp {
   name: string;
@@ -27,6 +28,12 @@ const RoleShop = {
 }
 
 class AccessService {
+  static logout = async ({ keyStore }: { keyStore: IKeyTokenDocument }) => {
+    const delKey = await await KeyTokenService.removeKeyById(keyStore._id);
+    console.log({ delKey });
+    return delKey;
+  }
+
   static login = async ({ email, password, refreshToken = null }: ISignIn) => {
     const foundShop = await findByEmail({ email });
     if (!foundShop) throw new BadRequestError('Shop not registered');

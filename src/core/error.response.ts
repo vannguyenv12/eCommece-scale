@@ -25,6 +25,12 @@ export class BadRequestError extends ErrorResponse {
 
 export class AuthFailureError extends ErrorResponse {
   constructor(message = ReasonStatusCode.UNAUTHORIZED) {
-    super(message, StatusCodes.FORBIDDEN);
+    super(message, StatusCodes.UNAUTHORIZED);
+  }
+}
+
+export class NotFoundError extends ErrorResponse {
+  constructor(message = ReasonStatusCode.NOT_FOUND) {
+    super(message, StatusCodes.NOT_FOUND);
   }
 }
