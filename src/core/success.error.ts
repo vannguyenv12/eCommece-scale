@@ -11,7 +11,7 @@ const ReasonStatusCode = {
 }
 
 
-class SuccessResponse {
+export class SuccessResponse {
   private message: string;
   private statusCode: number;
   private metadata: any;
