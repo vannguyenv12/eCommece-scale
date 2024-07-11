@@ -2,9 +2,9 @@ import shopModel from "~/models/shop.model"
 import bcrypt from 'bcrypt';
 import crypto from 'node:crypto';
 import KeyTokenService from "./keyToken.service";
-import { createTokenPair } from "~/auth/authUtils";
+import { createTokenPair, verifyJWT } from "~/auth/authUtils";
 import { getInfoData } from "~/utils";
-import { AuthFailureError, BadRequestError } from "~/core/error.response";
+import { AuthFailureError, BadRequestError, ForbiddenError } from "~/core/error.response";
 import { findByEmail } from "./shop.service";
 import { IKeyToken, IKeyTokenDocument } from "~/models/interfaces/keytoken.interface";
 
@@ -28,6 +28,42 @@ const RoleShop = {
 }
 
 class AccessService {
+
+  static handleRefreshToken = async (refreshToken: string) => {
+    const foundToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken);
+
+    if (foundToken) {
+      const { userId, email } = await verifyJWT(refreshToken, foundToken.privateKey);
+      console.log({ userId, email });
+      await KeyTokenService.deleteKeyById(userId);
+      throw new ForbiddenError('Something went wrong! Please login again');
+    }
+
+    const holderToken = await KeyTokenService.findByRefreshToken(refreshToken);
+    if (!holderToken) throw new AuthFailureError('Shop not registered!');
+    const { userId, email } = await verifyJWT(refreshToken, holderToken.privateKey);
+
+    const foundShop = await findByEmail({ email });
+    if (!foundShop) throw new AuthFailureError('Shop not registered!');
+
+    const tokens = await createTokenPair({ userId: foundShop._id, email }, holderToken.publicKey, holderToken.privateKey);
+
+
+    await holderToken.updateOne({
+      $set: {
+        refreshToken: tokens?.refreshToken
+      },
+      $addToSet: {
+        refreshTokensUsed: refreshToken
+      }
+    });
+
+    return {
+      user: { userId, email },
+      tokens
+    }
+  }
+
   static logout = async ({ keyStore }: { keyStore: IKeyTokenDocument }) => {
     const delKey = await await KeyTokenService.removeKeyById(keyStore._id);
     console.log({ delKey });

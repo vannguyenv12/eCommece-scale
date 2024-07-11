@@ -34,3 +34,10 @@ export class NotFoundError extends ErrorResponse {
     super(message, StatusCodes.NOT_FOUND);
   }
 }
+
+
+export class ForbiddenError extends ErrorResponse {
+  constructor(message = ReasonStatusCode.FORBIDDEN) {
+    super(message, StatusCodes.FORBIDDEN);
+  }
+}

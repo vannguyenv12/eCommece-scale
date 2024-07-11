@@ -57,3 +57,7 @@ export const authentication = asyncHandler(async (req: Request, res: Response, n
     throw error;
   }
 })
+
+export const verifyJWT = async (token: string, keySecret: string) => {
+  return await JWT.verify(token, keySecret) as AuthPayload;
+}
