@@ -21,6 +21,23 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjhlODE0NzZk
   }
 }
 
+### Update Product
+PATCH  {{url_dev}}/products/6690ff76ca34b4860c1f9e0c
+Content-Type: application/json
+x-api-key: 76d2cf9d31fd6752d559aa3230180f85f925ddcf6926c3c2b7b41a2747a851c25b368a44911c7991820eec33b33c27ccac64944a7305435c3c4cdf7b84cb3057
+x-client-id: 668e81476da3f74192faaf9b
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjhlODE0NzZkYTNmNzQxOTJmYWFmOWIiLCJlbWFpbCI6InNob3B2YW4wNEBnbWFpbC5jb20iLCJpYXQiOjE3MjA3Nzg0OTQsImV4cCI6MTcyMDk1MTI5NH0.vkNQPIsnkvKMHPKgR2vo_z4346SuHrgUCApOiykAeec
+
+{
+  "product_name": "IPhone 14 64GB",
+  "product_type": "Electronics",
+  "product_attribute": {
+    "manufacturer": "Apple",
+    "model": "VIP",
+    "color": "Black"
+  }
+}
+
 ### Search Product
 GET {{url_dev}}/products/search/IPhone
 Content-Type: application/json

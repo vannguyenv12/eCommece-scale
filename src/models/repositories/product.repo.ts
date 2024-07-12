@@ -75,3 +75,7 @@ export const findProduct = async ({ product_id, unSelect }: { product_id: string
 
   return product;
 }
+
+export const updateProductById = async ({ productId, bodyUpdate, model, isNew = true }: { productId: string, bodyUpdate: any, model: any, isNew?: boolean }) => {
+  return await model.findByIdAndUpdate(productId, bodyUpdate, { new: isNew });
+}

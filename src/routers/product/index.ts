@@ -17,6 +17,7 @@ productRouter.post('/unpublish/:id', asyncHandler(productController.unPublishPro
 
 // Sign Up
 productRouter.post('/', asyncHandler(productController.createNewProduct))
+productRouter.patch('/:productId', asyncHandler(productController.updateProduct))
 productRouter.get('/drafts/all', asyncHandler(productController.getAllDraftsForShop))
 productRouter.get('/published/all', asyncHandler(productController.getAllPublishForShop))
 
