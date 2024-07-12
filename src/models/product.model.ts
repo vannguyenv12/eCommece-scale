@@ -1,9 +1,10 @@
 import mongoose, { Schema } from "mongoose";
+import { IProduct } from "./interfaces/product.interface";
 
 const DOCUMENT_NAME = 'Product';
 const COLLECTION_NAME = 'Products';
 
-const productSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema<IProduct>({
   product_name: { type: String, required: true },
   product_thumb: { type: String, required: true },
   product_description: String,

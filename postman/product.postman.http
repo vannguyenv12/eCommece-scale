@@ -1,0 +1,23 @@
+@url_dev=http://localhost:5000/v1/api
+
+### SignUp
+POST {{url_dev}}/products
+Content-Type: application/json
+x-api-key: 76d2cf9d31fd6752d559aa3230180f85f925ddcf6926c3c2b7b41a2747a851c25b368a44911c7991820eec33b33c27ccac64944a7305435c3c4cdf7b84cb3057
+x-client-id: 668e81476da3f74192faaf9b
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjhlODE0NzZkYTNmNzQxOTJmYWFmOWIiLCJlbWFpbCI6InNob3B2YW4wNEBnbWFpbC5jb20iLCJpYXQiOjE3MjA2OTI3MjAsImV4cCI6MTcyMDg2NTUyMH0.eakquUV0YiLD_bvRz6AbSbYIP82pooQgl-CHvDg36Lk
+
+{
+  "product_name": "New Jeans",
+  "product_description": "High-quatity denim jeans",
+  "product_price": 50,
+  "product_shop": "668e81476da3f74192faaf9b",
+  "product_type": "Clothing",
+  "product_thumb": "product_thumb",
+  "product_quantity": 5,
+  "product_attribute": {
+    "brand": "Levi 5",
+    "size": "L",
+    "material": "Denim"
+  }
+}
