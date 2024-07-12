@@ -9,4 +9,9 @@ export interface IProduct {
   product_type: string
   product_shop: Schema.Types.ObjectId
   product_attribute: any
+  product_slug: string
+  product_ratingsAverage: number
+  product_variations: any
+  isDraft: boolean
+  isPublished: boolean
 }

@@ -2,6 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import { BadRequestError } from "~/core/error.response";
 import { IProduct } from "~/models/interfaces/product.interface";
 import { clothingModel, electronicModel, productModel } from "~/models/product.model";
+import { findAll, publishProductByShop, searchProductByUser, unPublishProductByShop } from "~/models/repositories/product.repo";
 
 class ProductFactory {
   public static createProduct(type: string, payload: any) {
@@ -13,6 +14,33 @@ class ProductFactory {
       default:
         throw new BadRequestError(`Invalid product type ${type}`)
     }
+  }
+
+  public static async publishProductByShop({ product_shop, product_id }: { product_shop: string, product_id: string }) {
+    return await publishProductByShop({ product_shop, product_id })
+  }
+
+  public static async unPublishProductByShop({ product_shop, product_id }: { product_shop: string, product_id: string }) {
+    return await unPublishProductByShop({ product_shop, product_id })
+  }
+
+  // Query
+  public static async findAllDraftsForShop(
+    { product_shop, limit = 50, skip = 0 }:
+      { product_shop: string, limit?: number, skip?: number }) {
+    const query = { product_shop, isDraft: true };
+    return await findAll({ query, limit, skip });
+  }
+
+  public static async findAllPublishForShop(
+    { product_shop, limit = 50, skip = 0 }:
+      { product_shop: string, limit?: number, skip?: number }) {
+    const query = { product_shop, isPublish: true };
+    return await findAll({ query, limit, skip });
+  }
+
+  public static async searchProducts({ keySearch }: { keySearch: string }) {
+    return await searchProductByUser({ keySearch })
   }
 }
 
