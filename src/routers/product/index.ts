@@ -6,6 +6,8 @@ import { asyncHandler } from '~/helpers/asyncHandler';
 const productRouter = express.Router();
 
 productRouter.get('/search/:keySearch', asyncHandler(productController.getListSearchProduct))
+productRouter.get('/', asyncHandler(productController.findAllProducts))
+productRouter.get('/:productId', asyncHandler(productController.findProduct))
 
 // Authentication
 productRouter.use(authentication);

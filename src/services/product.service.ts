@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import { BadRequestError } from "~/core/error.response";
 import { IProduct } from "~/models/interfaces/product.interface";
 import { clothingModel, electronicModel, productModel } from "~/models/product.model";
-import { findAll, publishProductByShop, searchProductByUser, unPublishProductByShop } from "~/models/repositories/product.repo";
+import { findAll, findAllProducts, findProduct, publishProductByShop, searchProductByUser, unPublishProductByShop } from "~/models/repositories/product.repo";
 
 class ProductFactory {
   public static createProduct(type: string, payload: any) {
@@ -14,6 +14,10 @@ class ProductFactory {
       default:
         throw new BadRequestError(`Invalid product type ${type}`)
     }
+  }
+
+  public static updateProduct() {
+
   }
 
   public static async publishProductByShop({ product_shop, product_id }: { product_shop: string, product_id: string }) {
@@ -41,6 +45,17 @@ class ProductFactory {
 
   public static async searchProducts({ keySearch }: { keySearch: string }) {
     return await searchProductByUser({ keySearch })
+  }
+
+  public static async findAllProducts({ limit = 50, sort = 'ctime', page = 1, filter = { isPublished: true } }: any) {
+    return await findAllProducts({
+      limit, sort, page, filter,
+      select: ['product_name', 'product_price', 'product_thumb']
+    });
+  }
+
+  public static async findProduct({ product_id }: { product_id: string }) {
+    return await findProduct({ product_id, unSelect: ['__v', 'product_variations'] });
   }
 }
 
