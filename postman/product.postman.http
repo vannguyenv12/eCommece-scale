@@ -8,16 +8,15 @@ x-client-id: 668e81476da3f74192faaf9b
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjhlODE0NzZkYTNmNzQxOTJmYWFmOWIiLCJlbWFpbCI6InNob3B2YW4wNEBnbWFpbC5jb20iLCJpYXQiOjE3MjA2OTI3MjAsImV4cCI6MTcyMDg2NTUyMH0.eakquUV0YiLD_bvRz6AbSbYIP82pooQgl-CHvDg36Lk
 
 {
-  "product_name": "New Jeans",
-  "product_description": "High-quatity denim jeans",
+  "product_name": "IPhone 14 64GB",
+  "product_description": "High-quatity IPhone",
   "product_price": 50,
-  "product_shop": "668e81476da3f74192faaf9b",
-  "product_type": "Clothing",
+  "product_type": "Electronics",
   "product_thumb": "product_thumb",
   "product_quantity": 5,
   "product_attribute": {
-    "brand": "Levi 5",
-    "size": "L",
-    "material": "Denim"
+    "manufacturer": "Apple",
+    "model": "VIP",
+    "color": "Black"
   }
 }
