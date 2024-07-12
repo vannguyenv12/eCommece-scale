@@ -20,6 +20,10 @@ interface ISignIn {
   refreshToken: string | null;
 }
 
+interface IHandleRefreshToken {
+  keyStore: IKeyTokenDocument, user: AuthPayload, refreshToken: string;
+}
+
 const RoleShop = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',
@@ -29,27 +33,21 @@ const RoleShop = {
 
 class AccessService {
 
-  static handleRefreshToken = async (refreshToken: string) => {
-    const foundToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken);
-
-    if (foundToken) {
-      const { userId, email } = await verifyJWT(refreshToken, foundToken.privateKey);
-      console.log({ userId, email });
+  static handleRefreshToken = async ({ keyStore, user, refreshToken }: IHandleRefreshToken) => {
+    const { email, userId } = user;
+    if (keyStore.refreshTokensUsed.includes(refreshToken)) {
       await KeyTokenService.deleteKeyById(userId);
-      throw new ForbiddenError('Something went wrong! Please login again');
+      throw new ForbiddenError('Something went wrong! Please login again')
     }
 
-    const holderToken = await KeyTokenService.findByRefreshToken(refreshToken);
-    if (!holderToken) throw new AuthFailureError('Shop not registered!');
-    const { userId, email } = await verifyJWT(refreshToken, holderToken.privateKey);
+    if (keyStore.refreshToken !== refreshToken) throw new AuthFailureError('Shop not registered!');
 
     const foundShop = await findByEmail({ email });
     if (!foundShop) throw new AuthFailureError('Shop not registered!');
 
-    const tokens = await createTokenPair({ userId: foundShop._id, email }, holderToken.publicKey, holderToken.privateKey);
+    const tokens = await createTokenPair({ userId: foundShop._id, email }, keyStore.publicKey, keyStore.privateKey);
 
-
-    await holderToken.updateOne({
+    await keyStore.updateOne({
       $set: {
         refreshToken: tokens?.refreshToken
       },
@@ -59,9 +57,11 @@ class AccessService {
     });
 
     return {
-      user: { userId, email },
+      user,
       tokens
     }
+
+
   }
 
   static logout = async ({ keyStore }: { keyStore: IKeyTokenDocument }) => {
